@@ -1,8 +1,9 @@
 import { Router } from "express"
-import { create } from "../controllers/postagemController.js"
+import { create, getAll } from "../controllers/postagemController.js"
 
 const router = Router()
 
 router.post("/", create)
+router.get("/", getAll)
 
 export default router
