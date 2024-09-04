@@ -1,7 +1,7 @@
 import Postagem from "../models/postagemModel.js"
 import { z } from 'zod'
 import formatZodError from '../helpers/formatZodError.js'
-import { createSchema } from '../helpers/schema.js'
+import { createSchema, getSchema } from '../helpers/schema.js'
 
 
 const updatePostagemSchema = z.object({

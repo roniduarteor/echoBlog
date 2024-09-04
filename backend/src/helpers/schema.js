@@ -15,3 +15,8 @@ export const createSchema = z.object({
     .string()
     .min(3, { message: "O nome do autor deve ter pelo menos 3 caracteres"}),
 })
+
+
+export const getSchema = z.object({
+    id: z.string().uuid({message: "Id da tarefa está inválido!"})
+})
