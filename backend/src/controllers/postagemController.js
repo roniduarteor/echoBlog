@@ -63,3 +63,19 @@ export const getAll = async (request, response) => {
     }
 }
 
+export const getPostagemById = async (request, response) => {
+    const {id} = request.params
+    try {
+        // const tarefa = await Tarefa.findOne({where: {id}})
+        const postagem = await Postagem.findByPk(id)
+
+        if(postagem === null){
+            response.status(404).json({message: "Postagem não encontrada"})
+            return
+        }
+
+        response.status(200).json(postagem)
+    } catch (error) {
+        response.status(500).json({message: "Erro ao buscar postgem"})
+    }
+}
