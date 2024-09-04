@@ -3,6 +3,23 @@ import { z } from 'zod'
 import formatZodError from '../helpers/formatZodError.js'
 import { createSchema } from '../helpers/schema.js'
 
+
+const updatePostagemSchema = z.object({
+    titulo: z
+    .string()
+    .min(3, {message: "O título deve ter pelo menos 3 caracteres"})
+    .transform((txt)=> txt.toLowerCase()),
+
+    conteudo: z
+    .string()
+    .min(3, {message: "O conteúdo deve ter pelo menos 3 caracteres"}),
+
+    autor: z
+    .string()
+    .min(3, {message: "O autor deve ter pelo menos 3 caracteres"})
+    .transform((txt)=> txt.toLowerCase()),
+})
+
 export const create = async (request, response) => {
         
     //implementar a validação
@@ -77,5 +94,48 @@ export const getPostagemById = async (request, response) => {
         response.status(200).json(postagem)
     } catch (error) {
         response.status(500).json({message: "Erro ao buscar postgem"})
+    }
+}
+
+export const updatePostagem = async (request, response) => {
+    const paramValidator = getSchema.safeParse(request.params)
+    if(!paramValidator.success){
+        response.status(400).json({
+            message: "Número de identificação está inválido",
+            detalhes: formatZodError(paramValidator.error)
+    })
+    return
+    }
+    
+    const updateValidator = updatePostagemSchema.safeparse(request.body)
+    if(!updateValidator.sucess){
+        response.status(400).json({
+            message: "Dados para atualização inválidos",
+            details: formatZodError(updateValidator.error)
+        })
+        return
+    }
+
+    const {id} = request.params
+    const { titulo, conteudo, autor, imagem } = request.body
+
+    const postagemAtualizada = {
+        titulo, 
+        conteudo, 
+        autor, 
+        imagem
+    }
+
+    try {
+        const [linhasAfetadas] = await Tarefa.update(postagemAtualizada, { where: { id } })
+
+        if(linhasAfetadas <= 0){
+            response.status(404).json({message: "Postagem não encontrada"})
+            return
+        }
+
+        response.status(200).json({message: "Postagem atualizada!"})
+    } catch (error) {
+        response.status(500).json({err: "Erro ao atualizar postagem"})
     }
 }
