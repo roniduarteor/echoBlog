@@ -6,9 +6,11 @@ import conn from "./config/conn.js"// importando para estabelecer a conexão com
 
 // Importação dos modelos
 import "./models/postagemModel.js"
+import "./models/usuariosModel.js"
 
 // Importação das rotas
 import postagemRoutes from "./routes/postagemRoutes.js"
+import usuariosRoutes from "./routes/usuariosRoutes.js"
 
 const PORT = process.env.PORT || 3333
 
@@ -27,6 +29,7 @@ app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
 
 app.use("/postagens", postagemRoutes)
+app.use("/usuarios", usuariosRoutes)
 
 app.use("/", (request, response) => {
     response.status(404).json({message: "Olá, Mundo!"})
