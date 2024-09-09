@@ -14,14 +14,21 @@ export const create = async (request, response) => {
         return
     }
 
-    const { nome, email, senha } = request.body
-    const papel = "leitor"
+    const { nome, email, senha, papel } = request.body
+
+    const emailExiste = await Usuarios.findAll({where: { email: email }})
+    console.log(emailExiste)
+
+    if(emailExiste.length > 0){
+        response.status(409).json({message: "Já existe um usuário com esse email"})
+        return
+    }
 
     const novoUsuarios = {
         nome,
         email,
         senha,
-        papel
+        papel: papel || "leitor"
     }
 
     try {
