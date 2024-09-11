@@ -31,6 +31,11 @@ const Usuarios = conn.define("usuarios", {
         required: true
     },
 
+    imagem: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
     papel: {
         type: DataTypes.ENUM,
         values: ["administrador", "autor", "leitor"]
