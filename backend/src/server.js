@@ -32,5 +32,5 @@ app.use("/postagens", postagemRoutes)
 app.use("/usuarios", usuariosRoutes)
 
 app.use("/", (request, response) => {
-    response.status(404).json({message: "Olá, Mundo!"})
+    response.status(404).json({message: "Rota não encontrada"})
 })
