@@ -2,6 +2,9 @@ import "dotenv/config"
 import express from "express"
 import cors from "cors"
 
+import { fileURLToPath } from 'url'
+import path from 'path'
+
 import conn from "./config/conn.js"// importando para estabelecer a conexão com o banco de dados
 
 // Importação dos modelos
@@ -16,6 +19,9 @@ const PORT = process.env.PORT || 3333
 
 const app = express()
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 // Fazer a conexão com o banco de dados
 conn.sync().then(() => {
     console.log("Olá, Mundo!")
@@ -27,6 +33,10 @@ conn.sync().then(() => {
 app.use(cors())
 app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
+
+
+// middleware
+app.use("/public", express.static(path.join(__dirname, "public")))
 
 
 app.use("/postagens", postagemRoutes)

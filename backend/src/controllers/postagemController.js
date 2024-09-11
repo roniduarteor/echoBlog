@@ -34,8 +34,13 @@ export const create = async (request, response) => {
     }
     
     
-    const { titulo, conteudo, autor, imagem } = request.body
-    
+    const { titulo, conteudo, autor} = request.body
+    let imagem
+    if(request.file){
+        imagem = request.file.filename
+    }else{
+        imagem = "postagemDefault.png"
+    }
 
 
     const novaPostagem = { // informações que vão ser inseridas
