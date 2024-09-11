@@ -14,14 +14,13 @@ export const create = async (request, response) => {
         return
     }
 
-    const { nome, email, senha } = request.body
-    const papel = "leitor"
+    const { nome, email, senha, papel } = request.body
 
     const novoUsuarios = {
         nome,
         email,
         senha,
-        papel
+        papel: papel || "leitor"
     }
 
     try {
