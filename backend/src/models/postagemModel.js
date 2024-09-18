@@ -6,6 +6,7 @@
 
 import conn from "../config/conn.js"
 import { DataTypes } from "sequelize"
+import Usuarios from "./usuariosModel.js"
 
 const Postagem = conn.define("postagem", {
     id: {
@@ -40,5 +41,8 @@ const Postagem = conn.define("postagem", {
     createdAt: "dataPublicacao",
     tableName: "postagem"
 })
+
+Usuarios.hasMany(Postagem)
+Postagem.belongsTo(Usuarios)
 
 export default Postagem;
